@@ -22,5 +22,5 @@ production:
   adapter: mysql2
   database: mtn
   hostname: 128.199.86.100
-  username: mtn
+  username: deployer
   password: 3Frs40jdTtZR8Om
