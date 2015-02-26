@@ -10,7 +10,7 @@ set :term_mode, :system
 set :domain, '128.199.86.100'
 set :deploy_to, '/var/www/deployer'
 set :repository, 'https://github.com/programoo/myapp1.git'
-set :branch, 'master'
+set :branch, 'chore/setup-mina'
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
