@@ -53,7 +53,7 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
+    #invoke :'rails:assets_precompile' s test deploy
     invoke :'deploy:cleanup'
 
     to :launch do
