@@ -26,6 +26,6 @@ production:
   database: production
   host: localhost
   username: deployer
-  password:
+  password: mysqlvok89gik
   encoding: UTF8
   pool: 5
