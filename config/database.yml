@@ -18,6 +18,6 @@ production:
   database: production
   host: localhost
   username: root
-  password: vok89gik
+  password: mysqlvok89gik
   encoding: UTF8
   pool: 5
