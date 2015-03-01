@@ -6,7 +6,7 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 set :user, 'deployer'
 set :forward_agent, true
 set :term_mode, :system
-set :keep_releases,  0
+set :keep_releases,  5
 
 set :domain, '128.199.86.100'
 set :deploy_to, '/var/www/deployer'
