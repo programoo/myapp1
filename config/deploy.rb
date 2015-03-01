@@ -60,6 +60,7 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
+      invoke :'unicorn:restart'
     end
   end
 end
@@ -71,3 +72,42 @@ end
 #  - http://nadarei.co/mina/settings
 #  - http://nadarei.co/mina/helpers
 
+#                                                                       Unicorn
+# ==============================================================================
+namespace :unicorn do
+  set :unicorn_pid, "#{app_path}/tmp/pids/unicorn.pid"
+  set :start_unicorn, %{
+    cd #{app_path}
+    bundle exec unicorn_rails -c #{app_path}/config/unicorn.rb -E #{rails_env} -D
+  }
+
+#                                                                    Start task
+# ------------------------------------------------------------------------------
+  desc "Start unicorn"
+  task :start => :environment do
+    queue 'echo "-----> Start Unicorn"'
+    queue! start_unicorn
+  end
+
+#                                                                     Stop task
+# ------------------------------------------------------------------------------
+  desc "Stop unicorn"
+  task :stop do
+    queue 'echo "-----> Stop Unicorn"'
+    queue! %{
+      test -s "#{unicorn_pid}" && kill -QUIT `cat "#{unicorn_pid}"` && echo "Stop Ok" && exit 0
+      echo >&2 "Not running"
+    }
+  end
+
+#                                                                  Restart task
+# ------------------------------------------------------------------------------
+  desc "Restart unicorn"
+  task :restart => :environment do
+    queue %{
+      cd #{app_path}
+      test -s #{unicorn_pid} && kill -USR2 `cat #{unicorn_pid}` && echo "-----> Reload Ok" && exit 0
+      bundle exec unicorn_rails -c #{app_path}/config/unicorn.rb -E #{rails_env} -D && echo "-----> Start Ok"
+    }
+  end
+end
